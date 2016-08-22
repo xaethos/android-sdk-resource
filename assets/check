@@ -14,6 +14,6 @@ then
   URI=$DEFAULT_URI
 fi
 
-wget -P /tmp -c $URI
+[ -d /tmp/android-sdk-linux ] || curl -L $URI | gunzip | tar -x -C /tmp/
 
 jq -n --arg uri "$URI" '[{uri:$uri}]' >&3
