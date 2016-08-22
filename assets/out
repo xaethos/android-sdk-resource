@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo '{"version":{"number":0}}' | jq .
