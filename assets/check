@@ -1,3 +1,19 @@
 #!/bin/sh
 
-echo '{"version":{"number":0}}' | jq '[.version]'
+exec 3>&1
+exec 1>&2
+
+set -e -x
+
+DEFAULT_RELEASE=24.4.1
+DEFAULT_URI="http://dl.google.com/android/android-sdk_r${DEFAULT_RELEASE}-linux.tgz"
+
+URI=$(jq '.source.uri' | tr -d '"')
+if [ -z "$URI" ] || [ 'null' == "$URI" ]
+then
+  URI=$DEFAULT_URI
+fi
+
+wget -P /tmp -c $URI
+
+jq -n --arg uri "$URI" '[{uri:$uri}]' >&3
