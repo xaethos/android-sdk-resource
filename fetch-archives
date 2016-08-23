@@ -3,4 +3,4 @@
 RELEASE=24.4.1
 URI="http://dl.google.com/android/android-sdk_r${RELEASE}-linux.tgz"
 
-curl -L $URI >archives/android-sdk-linux.tgz
+curl -L $URI >assets/android-sdk-linux.tgz
