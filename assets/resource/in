@@ -8,9 +8,7 @@ exec 1>&2 # redirect all output to stderr for logging
 . $(dirname $0)/functions.sh
 
 destination=${1%/} # destination with no trailing slash
-config=$(mktemp)
-
-cat >$config
+components=$(jq -r '.version.components')
 
 if [ ! -d "$destination" ]; then
   echo "usage: $0 <path/to/destination>" >&2
@@ -19,9 +17,9 @@ fi
 
 extractSdk $destination
 
-for component in $(cat "$config" | jq -r '.version.components[]?')
+for component in $(echo $components | tr , "\n")
 do
   sdkInstall $destination $component
 done
 
-cat "$config" | jq '{version:.version}' >&3
+jq -n --arg comp $components '{version:{components:$comp}}' >&3
