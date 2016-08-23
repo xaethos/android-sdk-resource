@@ -1,4 +1,11 @@
-FROM concourse/buildroot:curl-jq
+FROM java:8-jdk
 
-ADD assets/ /opt/resource/
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends jq && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY archives/android-sdk-linux.tgz /opt/
+
+COPY var/ /var/opt/resource/
+COPY assets/ /opt/resource/
 RUN chmod +x /opt/resource/*

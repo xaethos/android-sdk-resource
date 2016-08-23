@@ -1,4 +1,7 @@
-# Created by https://www.gitignore.io/api/osx,linux,vim
+# This keeps large binaries we don't want to check into the repo
+archives/
+
+# Added from https://www.gitignore.io/api/osx,linux,vim
 
 ### OSX ###
 *.DS_Store

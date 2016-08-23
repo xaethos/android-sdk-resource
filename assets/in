@@ -1,3 +1,23 @@
-#!/bin/sh
+#!/bin/bash
 
-jq '{version:.version}'
+set -e
+
+exec 3>&1 # make stdout available as fd 3 for the result
+exec 1>&2 # redirect all output to stderr for logging
+
+. $(dirname $0)/common.sh
+
+destination=$1
+
+if [ ! -d "$destination" ]; then
+  echo "usage: $0 <path/to/destination>" >&2
+  exit 1
+fi
+
+set -x
+
+extractSdk $destination
+
+#cp -a $ANDROID_HOME/ "$destination"
+
+jq '{version:.version}' >&3
