@@ -1,0 +1,12 @@
+#!/usr/bin/env expect
+
+if { $argc != 1 } {
+  puts "Usage: $argv0 tools,android-23,etc"
+  exit 2
+}
+
+spawn $env(ANDROID_HOME)/tools/android update sdk --all --no-ui --force --filter $argv
+
+expect {
+  -re "Do you accept the license '(.*)' .y.n.:" { send "y\n"; exp_continue }
+}
