@@ -4,6 +4,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends jq && \
     rm -rf /var/lib/apt/lists/*
 
-COPY assets/*.tgz /opt/
-COPY assets/resource/ /opt/resource/
+RUN curl -L "https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz" \
+    > /opt/android-sdk-linux.tgz
+
+COPY assets/ /opt/resource/
 RUN chmod +x /opt/resource/*
