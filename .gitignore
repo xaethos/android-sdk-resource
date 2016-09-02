@@ -1,5 +1,6 @@
-# Don't check in large binaries
-assets/*.tgz
+# Don't check in large binaries nor credentials
+*.tgz
+credentials.yml
 
 # Added from https://www.gitignore.io/api/osx,linux,vim
 

@@ -1,0 +1,21 @@
+resources:
+  - name: android-sdk-resource
+    type: git
+    source:
+      uri: https://github.com/xaethos/android-sdk-resource.git
+      branch: master
+
+  - name: android-sdk-resource-image
+    type: docker-image
+    source:
+      repository: xaethos/android-sdk-resource
+      username: {{docker-username}}
+      password: {{docker-password}}
+
+jobs:
+  - name: build
+    plan:
+      - get: android-sdk-resource
+      - put: android-sdk-resource-image
+        params:
+          build: android-sdk-resource
