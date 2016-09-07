@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo "android-sdk-resource does not support put" >&2
-exit 1
