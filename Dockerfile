@@ -1,3 +1,3 @@
-FROM xaethos/android-sdk-resource:buildroot-24.4.1
+FROM xaethos/android-sdk-resource:buildroot
 
 COPY assets/ /opt/resource/

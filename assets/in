@@ -13,11 +13,7 @@ if [ ! -d "$destination" ]; then
   exit 1
 fi
 
-extractSdk $destination
-
-for component in $(echo $components | tr , "\n")
-do
-  sdkInstall $destination $component
-done
+extract_sdk $destination
+sdk_install $destination $components
 
 jq -n --arg comp $components '{version:{components:$comp}}' >&3
