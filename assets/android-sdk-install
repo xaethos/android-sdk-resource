@@ -5,8 +5,45 @@ if { $argc != 1 } {
   exit 2
 }
 
+set timeout -1
 spawn $env(ANDROID_HOME)/tools/android update sdk --all --no-ui --force --filter $argv
 
 expect {
-  -re "Do you accept the license '(.*)' .y.n.:" { send "y\n"; exp_continue }
+  # Accept every license
+  -re "Do you accept the license '(.*)' .y.n.: " {
+    send "y\n"
+    exp_continue
+  }
+
+  # Error out on bad package filters
+  -re "Error: Ignoring unknown package filter '(.*)'" {
+    puts "\n## Failing due to unknown component: $expect_out(1,string)"
+    exit 2
+  }
+  -re "Error: Unknown package filter type '(.*)'." {
+    exit 2
+  }
+  "Warning: The package filter removed all packages. There is nothing to install." {
+    exit 2
+  }
+
+  # Error out if any package fails to install
+  "Download interrupted" {
+    exit 1
+  }
+  "Done. Nothing was installed." {
+    exit 1
+  }
+
+  # Just wait until we're done...
+  eof
+}
+
+lassign [wait] pid spawnid os_error_flag value
+
+if {$os_error_flag == 0} {
+    exit $value
+} else {
+    puts "OS error: $value"
+    exit 1
 }
